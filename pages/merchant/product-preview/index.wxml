@@ -1,0 +1,7 @@
+<!--pages/merchant/product-preview/index.wxml-->
+<view class="product-preview-page">
+  <view class="preview-content">
+    <text class="preview-text">商品预览页</text>
+    <text class="preview-hint">此处展示用户视角的商品详情</text>
+  </view>
+</view>

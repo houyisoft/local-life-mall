@@ -1,0 +1,25 @@
+/* pages/merchant/product-preview/index.wxss */
+.product-preview-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-gray);
+}
+
+.preview-content {
+  text-align: center;
+}
+
+.preview-text {
+  display: block;
+  font-size: 32rpx;
+  color: var(--text-dark);
+  margin-bottom: 16rpx;
+}
+
+.preview-hint {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-gray);
+}

@@ -1,0 +1,80 @@
+<!--pages/user/profile/index.wxml-->
+<view class="profile-page">
+  <!-- 用户信息卡片 -->
+  <view class="user-card" bindtap="goToSettings">
+    <image class="user-avatar" src="{{userInfo.avatar || defaultAvatar}}" />
+    <view class="user-info">
+      <text class="user-name">{{userInfo.nickname || '用户'}}</text>
+      <text class="user-phone">{{userInfo.phone || '未绑定手机号'}}</text>
+    </view>
+  </view>
+
+  <!-- 订单入口 -->
+  <view class="order-entry">
+    <view class="entry-header">
+      <text class="entry-title">我的订单</text>
+      <text class="entry-more" bindtap="goToOrders">全部订单 ›</text>
+    </view>
+    <view class="entry-tabs">
+      <view class="entry-tab" bindtap="goToOrders" data-tab="paid">
+        <text class="tab-icon">💰</text>
+        <text class="tab-label">待接单</text>
+      </view>
+      <view class="entry-tab" bindtap="goToOrders" data-tab="accepted">
+        <text class="tab-icon">👨‍🍳</text>
+        <text class="tab-label">制作中</text>
+      </view>
+      <view class="entry-tab" bindtap="goToOrders" data-tab="shipped">
+        <text class="tab-icon">🚚</text>
+        <text class="tab-label">配送中</text>
+      </view>
+      <view class="entry-tab" bindtap="goToOrders" data-tab="completed">
+        <text class="tab-icon">✅</text>
+        <text class="tab-label">已完成</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="menu-list">
+    <view class="menu-item" bindtap="goToAddress">
+      <view class="menu-left">
+        <text class="menu-icon">📍</text>
+        <text class="menu-label">收货地址</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goToCoupons">
+      <view class="menu-left">
+        <text class="menu-icon">🎫</text>
+        <text class="menu-label">优惠券</text>
+      </view>
+      <view class="menu-right">
+        <text class="menu-badge">{{userInfo.coupons}}张</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+    <view class="menu-item" bindtap="goToPoints">
+      <view class="menu-left">
+        <text class="menu-icon">⭐</text>
+        <text class="menu-label">我的积分</text>
+      </view>
+      <view class="menu-right">
+        <text class="menu-badge">{{userInfo.points}}</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+    <view class="menu-item" bindtap="goToSettings">
+      <view class="menu-left">
+        <text class="menu-icon">⚙️</text>
+        <text class="menu-label">设置</text>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-btn" bindtap="handleLogout">
+    <text>退出登录</text>
+  </view>
+</view>

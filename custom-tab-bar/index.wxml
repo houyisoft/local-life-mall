@@ -1,0 +1,39 @@
+<!--custom-tab-bar/index.wxml-->
+<view class="custom-tab-bar">
+  <!-- 用户端TabBar -->
+  <view class="tab-bar user-tabs" wx:if="{{userType === 'user'}}">
+    <view class="tab-item {{selected === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0" data-path="/pages/user/home/index">
+      <text class="tab-icon">{{selected === 0 ? '🏠' : '🏚'}}</text>
+      <text class="tab-label">首页</text>
+    </view>
+    <view class="tab-item {{selected === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1" data-path="/pages/user/orders/index">
+      <text class="tab-icon">{{selected === 1 ? '📋' : '📄'}}</text>
+      <text class="tab-label">订单</text>
+    </view>
+    <view class="tab-item {{selected === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="2" data-path="/pages/user/profile/index">
+      <text class="tab-icon">{{selected === 2 ? '👤' : '👤'}}</text>
+      <text class="tab-label">我的</text>
+    </view>
+  </view>
+
+  <!-- 商家端TabBar -->
+  <view class="tab-bar merchant-tabs" wx:if="{{userType === 'merchant'}}">
+    <view class="tab-item {{selected === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0" data-path="/pages/merchant/home/index">
+      <text class="tab-icon">{{selected === 0 ? '🏠' : '🏚'}}</text>
+      <text class="tab-label">首页</text>
+    </view>
+    <view class="tab-item {{selected === 1 ? 'active' : ''}}" bindtap="switchTab" data-index="1" data-path="/pages/merchant/products/index">
+      <text class="tab-icon">{{selected === 1 ? '📦' : '📦'}}</text>
+      <text class="tab-label">商品</text>
+    </view>
+    <view class="tab-item {{selected === 2 ? 'active' : ''}}" bindtap="switchTab" data-index="2" data-path="/pages/merchant/orders/index">
+      <text class="tab-icon">{{selected === 2 ? '📋' : '📄'}}</text>
+      <text class="tab-label">订单</text>
+      <view class="tab-badge" wx:if="{{pendingCount > 0}}">{{pendingCount > 99 ? '99+' : pendingCount}}</view>
+    </view>
+    <view class="tab-item {{selected === 3 ? 'active' : ''}}" bindtap="switchTab" data-index="3" data-path="/pages/merchant/profile/index">
+      <text class="tab-icon">{{selected === 3 ? '👤' : '👤'}}</text>
+      <text class="tab-label">我的</text>
+    </view>
+  </view>
+</view>

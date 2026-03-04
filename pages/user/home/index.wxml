@@ -1,0 +1,139 @@
+<!--pages/user/home/index.wxml-->
+<view class="home-page">
+  <!-- 顶部定位和搜索栏 -->
+  <view class="top-header">
+    <view class="location-btn" bindtap="onTapLocation">
+      <text class="location-icon">📍</text>
+      <text class="location-text">{{location}}</text>
+    </view>
+    <view class="search-bar" bindtap="goToSearch">
+      <text class="search-icon">🔍</text>
+      <text class="search-placeholder">搜索商品、店铺</text>
+    </view>
+  </view>
+
+  <!-- 滚动内容区 -->
+  <scroll-view class="content-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <!-- 加载状态 -->
+    <view class="loading-container" wx:if="{{pageLoading}}">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+
+    <!-- 错误状态 -->
+    <view class="error-container" wx:elif="{{loadError}}">
+      <text class="error-icon">⚠️</text>
+      <text class="error-text">网络加载失败</text>
+      <text class="error-hint">下拉刷新重试</text>
+    </view>
+
+    <!-- 正常内容 -->
+    <view wx:else>
+      <!-- 轮播图 -->
+      <view class="banner-section" wx:if="{{banners.length > 0}}">
+        <swiper class="banner-swiper" indicator-dots autoplay circular interval="3000" duration="500" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FF6B00">
+          <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="onBannerTap" data-link="{{item.link}}">
+            <image class="banner-image" src="{{item.image}}" mode="aspectFill" lazy-load />
+          </swiper-item>
+        </swiper>
+      </view>
+
+    <!-- 快捷入口（商铺类型） -->
+    <view class="quick-access-section" wx:if="{{merchantTypes.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">分类</text>
+        <text class="section-subtitle">精选服务</text>
+      </view>
+      <view class="type-grid">
+        <view
+          class="type-icon-item"
+          wx:for="{{merchantTypes}}"
+          wx:key="id"
+          bindtap="onTapType"
+          data-id="{{item.id}}"
+          data-name="{{item.name}}"
+        >
+          <view class="type-icon-box">
+            <text class="type-icon">{{item.icon}}</text>
+          </view>
+          <text class="type-label">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 按类型展示商铺列表 -->
+    <view class="merchants-container">
+      <view
+        class="merchant-section"
+        wx:for="{{merchantTypes}}"
+        wx:key="id"
+        wx:for-item="type"
+      >
+        <!-- 类型标题（可折叠） -->
+        <view class="type-header" bindtap="toggleSection" data-type-id="{{type.id}}">
+          <view class="type-title-row">
+            <view class="type-icon-wrap">{{type.icon}}</view>
+            <view class="type-info">
+              <text class="type-title">{{type.name}}</text>
+              <text class="type-count" wx:if="{{typeMerchants[type.id]}}">{{typeMerchants[type.id].merchants.length || 0}}家店铺</text>
+            </view>
+          </view>
+          <view class="collapse-icon" wx:if="{{!collapsedSections[type.id]}}">▼</view>
+          <view class="collapse-icon expanded" wx:else>▲</view>
+        </view>
+
+        <!-- 商铺列表（展开状态显示） -->
+        <view class="merchant-content" wx:if="{{!collapsedSections[type.id]}}">
+          <!-- 商铺列表（横向滚动） -->
+          <scroll-view
+            class="merchants-scroll"
+            scroll-x
+            enhanced
+            show-scrollbar="{{false}}"
+            wx:if="{{typeMerchants[type.id] && typeMerchants[type.id].merchants.length > 0}}"
+          >
+            <view class="merchants-row">
+              <view
+                class="merchant-card"
+                wx:for="{{typeMerchants[type.id].merchants}}"
+                wx:for-item="merchant"
+                wx:key="id"
+                bindtap="onTapMerchant"
+                data-id="{{merchant.id}}"
+              >
+                <image class="merchant-logo" src="{{merchant.logo}}" mode="aspectFill" lazy-load/>
+                <view class="merchant-info">
+                  <text class="merchant-name">{{merchant.name}}</text>
+                  <text class="merchant-desc">{{merchant.description}}</text>
+                  <view class="merchant-tags">
+                    <text class="tag" wx:if="{{merchant.typeName}}">{{merchant.typeName}}</text>
+                  </view>
+                  <view class="merchant-footer">
+                    <text class="merchant-distance">1.2km</text>
+                    <text class="merchant-sales">已售{{merchant.sales || 0}}</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </scroll-view>
+
+          <!-- 加载中 -->
+          <view class="loading-tip" wx:elif="{{typeMerchants[type.id] && typeMerchants[type.id].loading}}">
+            <view class="loading-spinner small"></view>
+            <text>加载中...</text>
+          </view>
+
+          <!-- 空状态 -->
+          <view class="type-empty" wx:else>
+            <text class="empty-icon">🏪</text>
+            <text class="empty-text">该分类暂无店铺</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部安全区 -->
+    <view class="safe-bottom"></view>
+    </view>
+  </scroll-view>
+</view>

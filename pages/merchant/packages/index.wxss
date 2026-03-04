@@ -1,0 +1,229 @@
+/* pages/merchant/packages/index.wxss */
+.packages-page {
+  min-height: 100vh;
+  background: var(--bg-gray);
+  padding-bottom: 32rpx;
+}
+
+/* 顶部操作栏 */
+.top-bar {
+  background: white;
+  padding: 24rpx 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.tabs {
+  display: flex;
+  gap: 16rpx;
+}
+
+.tab-item {
+  flex: 1;
+  height: 64rpx;
+  background: var(--bg-gray);
+  border-radius: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  color: var(--text-dark);
+}
+
+.tab-item.active {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+}
+
+.add-btn {
+  width: 100%;
+  height: 80rpx;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: white;
+  border: none;
+}
+
+/* 套餐列表 */
+.package-list {
+  padding: 0 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.package-card {
+  background: white;
+  border-radius: 16rpx;
+  overflow: hidden;
+  display: flex;
+}
+
+.package-image {
+  width: 200rpx;
+  height: 200rpx;
+  flex-shrink: 0;
+}
+
+.package-content {
+  flex: 1;
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.package-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.package-name {
+  flex: 1;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.package-status {
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  white-space: nowrap;
+}
+
+.package-status.on-sale {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+}
+
+.package-status.sold-out {
+  background: rgba(153, 153, 153, 0.1);
+  color: #999999;
+}
+
+.package-desc {
+  font-size: 24rpx;
+  color: var(--text-gray);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.package-items {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 22rpx;
+  color: var(--text-gray);
+  line-height: 1.5;
+}
+
+.items-label {
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+.items-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.package-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.package-price-box {
+  display: flex;
+  align-items: baseline;
+  gap: 8rpx;
+}
+
+.package-price {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.package-original {
+  font-size: 22rpx;
+  color: var(--text-gray);
+  text-decoration: line-through;
+}
+
+.package-sales {
+  font-size: 22rpx;
+  color: var(--text-gray);
+}
+
+.package-actions {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 8rpx;
+}
+
+.action-btn {
+  flex: 1;
+  height: 56rpx;
+  line-height: 56rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn.edit {
+  background: var(--bg-gray);
+  color: var(--text-dark);
+}
+
+.action-btn.on {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+}
+
+.action-btn.off {
+  background: rgba(153, 153, 153, 0.1);
+  color: #999999;
+}
+
+.action-btn.delete {
+  background: rgba(255, 0, 0, 0.1);
+  color: #FF0000;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 200rpx 0;
+}
+
+.empty-icon {
+  font-size: 160rpx;
+  margin-bottom: 32rpx;
+  opacity: 0.3;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: var(--text-gray);
+  margin-bottom: 8rpx;
+}
+
+.empty-hint {
+  font-size: 24rpx;
+  color: var(--text-gray);
+}

@@ -1,0 +1,46 @@
+<!--pages/user/merchant-list/index.wxml-->
+<view class="merchant-list-page">
+  <!-- 商铺列表 -->
+  <view class="merchant-list" wx:if="{{!listLoading || merchants.length > 0}}">
+    <view
+      class="merchant-item"
+      wx:for="{{merchants}}"
+      wx:key="id"
+      bindtap="onTapMerchant"
+      data-id="{{item.id}}"
+    >
+      <image class="merchant-logo" src="{{item.logo}}" mode="aspectFill"/>
+      <view class="merchant-info">
+        <view class="merchant-header">
+          <text class="merchant-name">{{item.name}}</text>
+          <view class="merchant-type">
+            <text class="type-icon">{{item.typeIcon}}</text>
+            <text class="type-name">{{item.typeName}}</text>
+          </view>
+        </view>
+        <text class="merchant-desc">{{item.description}}</text>
+        <view class="merchant-footer">
+          <text class="merchant-address">📍 {{item.address}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{listLoading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-container" wx:if="{{!listLoading && merchants.length === 0}}">
+    <text class="empty-icon">🏪</text>
+    <text class="empty-text">暂无店铺</text>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{!listLoading && merchants.length > 0}}">
+    <text wx:if="{{loading}}">加载中...</text>
+    <text wx:elif="{{!hasMore}}">没有更多了</text>
+    <text wx:else>上拉加载更多</text>
+  </view>
+</view>

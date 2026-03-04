@@ -1,0 +1,326 @@
+/* pages/merchant/package-edit/index.wxss */
+.package-edit-page {
+  min-height: 100vh;
+  background: var(--bg-gray);
+  padding-bottom: 180rpx;
+}
+
+.form-section {
+  background: white;
+  margin-bottom: 24rpx;
+  padding: 32rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-action {
+  font-size: 26rpx;
+  color: var(--primary);
+  font-weight: normal;
+}
+
+/* 图片上传 */
+.image-upload {
+  display: flex;
+  gap: 16rpx;
+}
+
+.image-item {
+  position: relative;
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.upload-image {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 12rpx;
+}
+
+.image-delete {
+  position: absolute;
+  top: -8rpx;
+  right: -8rpx;
+  width: 40rpx;
+  height: 40rpx;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28rpx;
+  line-height: 1;
+}
+
+.image-add {
+  width: 200rpx;
+  height: 200rpx;
+  background: var(--bg-gray);
+  border-radius: 12rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+}
+
+.add-icon {
+  font-size: 48rpx;
+  color: var(--text-gray);
+  line-height: 1;
+}
+
+.add-text {
+  font-size: 22rpx;
+  color: var(--text-gray);
+}
+
+/* 表单项 */
+.form-item {
+  margin-bottom: 32rpx;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 16rpx;
+}
+
+.form-label.required::before {
+  content: '*';
+  color: #FF0000;
+  margin-right: 4rpx;
+}
+
+.form-input {
+  width: 100%;
+  height: 88rpx;
+  padding: 0 24rpx;
+  background: var(--bg-gray);
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 160rpx;
+  padding: 16rpx 24rpx;
+  background: var(--bg-gray);
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.form-hint {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-gray);
+  margin-top: 8rpx;
+}
+
+/* 套餐商品 */
+.package-items {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.package-item {
+  background: var(--bg-gray);
+  border-radius: 12rpx;
+  padding: 24rpx;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.item-index {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.item-delete {
+  font-size: 26rpx;
+  color: #FF0000;
+}
+
+.item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  margin-bottom: 12rpx;
+}
+
+.item-label {
+  width: 120rpx;
+  font-size: 26rpx;
+  color: var(--text-dark);
+  flex-shrink: 0;
+  padding-top: 16rpx;
+}
+
+/* 自定义下拉选择器 */
+.custom-select-wrapper {
+  flex: 1;
+  position: relative;
+  z-index: 100;
+}
+
+.select-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 72rpx;
+  padding: 0 20rpx;
+  background: white;
+  border-radius: 8rpx;
+  box-sizing: border-box;
+}
+
+.select-value {
+  flex: 1;
+  font-size: 26rpx;
+  color: var(--text-dark);
+}
+
+.select-value.placeholder {
+  color: var(--text-gray);
+}
+
+.select-arrow {
+  font-size: 20rpx;
+  color: var(--text-gray);
+  transition: transform 0.3s;
+}
+
+.select-arrow.up {
+  transform: rotate(180deg);
+}
+
+.select-dropdown {
+  position: absolute;
+  top: 80rpx;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 12rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.2);
+  max-height: 400rpx;
+  overflow-y: auto;
+  z-index: 1;
+  border: 2rpx solid #e0e0e0;
+}
+
+.select-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.select-option:last-child {
+  border-bottom: none;
+}
+
+.select-option.empty {
+  justify-content: center;
+}
+
+.option-name {
+  font-size: 26rpx;
+  color: var(--text-dark);
+}
+
+.option-check {
+  font-size: 28rpx;
+  color: var(--primary);
+}
+
+.empty-text {
+  font-size: 26rpx;
+  color: var(--text-gray);
+}
+
+.item-input {
+  flex: 1;
+  height: 72rpx;
+  padding: 0 20rpx;
+  background: white;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+}
+
+/* 提交按钮 */
+.submit-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 24rpx 32rpx;
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.08);
+}
+
+.submit-btn {
+  width: 100%;
+  height: 96rpx;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 48rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: white;
+  border: none;
+}
+
+/* 数量选择器 */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  background: var(--bg-gray);
+  border-radius: 8rpx;
+  padding: 4rpx;
+}
+
+.qty-btn {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  color: var(--text-dark);
+  background: white;
+  border-radius: 6rpx;
+}
+
+.qty-btn.disabled {
+  opacity: 0.4;
+}
+
+.qty-value {
+  min-width: 80rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-dark);
+}

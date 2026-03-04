@@ -1,0 +1,79 @@
+{
+  "pages": [
+    "pages/auth/login/index",
+    "pages/common/agreement/index",
+    "pages/user/home/index",
+    "pages/user/merchant-list/index",
+    "pages/user/merchant-detail/index",
+    "pages/user/product-detail/index",
+    "pages/user/package-detail/index",
+    "pages/user/cart/index",
+    "pages/user/checkout/index",
+    "pages/user/address/index",
+    "pages/user/address/edit/index",
+    "pages/user/orders/index",
+    "pages/user/order-detail/index",
+    "pages/user/search/index",
+    "pages/user/register/index",
+    "pages/user/profile/index",
+    "pages/user/profile/edit/index",
+    "pages/merchant/home/index",
+    "pages/merchant/products/index",
+    "pages/merchant/product-edit/index",
+    "pages/merchant/product-preview/index",
+    "pages/merchant/orders/index",
+    "pages/merchant/packages/index",
+    "pages/merchant/package-edit/index",
+    "pages/merchant/qrcode/index",
+    "pages/merchant/register/index",
+    "pages/merchant/profile/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FF6B00",
+    "navigationBarTitleText": "本地生活",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5F5F5"
+  },
+  "tabBar": {
+    "custom": true,
+    "list": [
+      {
+        "pagePath": "pages/user/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/user/orders/index",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/user/profile/index",
+        "text": "我的"
+      },
+      {
+        "pagePath": "pages/merchant/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/merchant/products/index",
+        "text": "商品"
+      },
+      {
+        "pagePath": "pages/merchant/orders/index",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/merchant/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 60000,
+    "downloadFile": 60000
+  },
+  "debug": false,
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

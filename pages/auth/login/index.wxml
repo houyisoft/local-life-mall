@@ -1,0 +1,76 @@
+     <!--pages/auth/login/index.wxml-->
+<view class="login-page">
+  <!-- 顶部装饰 -->
+  <view class="header-decoration">
+    <view class="decoration-pattern"></view>
+    <view class="decoration-circle"></view>
+    <view class="decoration-circle"></view>
+  </view>
+
+  <!-- 内容区 -->
+  <view class="content">
+    <!-- Logo区域 -->
+    <view class="logo-section">
+      <view class="logo-container">🛒</view>
+      <view class="app-name">本地生活商城</view>
+    </view>
+
+
+    <!-- 登录表单 -->
+    <view class="login-form">
+      <view class="form-item">
+        <view class="form-input-wrapper">
+          <text class="form-input-icon">📱</text>
+          <input class="form-input" type="number" placeholder="请输入手机号" maxlength="11" value="{{phone}}" bindinput="onPhoneInput" />
+        </view>
+      </view>
+
+      <view class="form-item">
+        <view class="form-input-wrapper">
+          <text class="form-input-icon">🔐</text>
+          <input class="form-input" type="text" placeholder="请输入密码" password value="{{password}}" bindinput="onPasswordInput" />
+        </view>
+      </view>
+
+      <view class="form-links">
+        <text class="link" bindtap="goToRegister">还没有账号？去注册</text>
+      </view>
+
+      <!-- 自营商家选项 -->
+      <view class="merchant-option">
+        <view class="checkbox-wrapper" bindtap="toggleMerchant">
+          <view class="checkbox {{isMerchant ? 'checked' : ''}}"></view>
+          <text class="merchant-label">自营商家</text>
+        </view>
+      </view>
+
+      <button class="login-btn" bindtap="handleLogin" loading="{{loading}}">登 录</button>
+
+      <view class="divider" wx:if="{{!isMerchant}}">
+        <view class="divider-line"></view>
+        <view class="divider-text">或</view>
+        <view class="divider-line"></view>
+      </view>
+
+      <view class="quick-login" wx:if="{{!isMerchant}}">
+        <!-- 微信登录（不获取手机号） -->
+        <button class="wechat-login-btn" bindtap="handleWechatLogin">
+          <view class="wechat-icon">
+            <view class="wechat-dot"></view>
+            <view class="wechat-dot"></view>
+          </view>
+          <text>微信登录</text>
+        </button>
+      </view>
+
+      <view class="agreement">
+        <view class="checkbox-wrapper">
+          <view class="checkbox {{agreed ? 'checked' : ''}}" bindtap="toggleAgree"></view>
+          <text>已阅读并同意</text>
+          <text class="link" bindtap="viewProtocol">《用户协议》</text>
+          <text>和</text>
+          <text class="link" bindtap="viewPrivacy">《隐私政策》</text>
+        </view>
+      </view>
+    </view></view>
+</view>

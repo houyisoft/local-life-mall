@@ -1,0 +1,134 @@
+<!--pages/merchant/product-edit/index.wxml-->
+<view class="product-edit-page">
+  <!-- 商品图片 -->
+  <view class="form-section">
+    <view class="section-title">商品图片</view>
+    <view class="image-upload">
+      <view class="image-list">
+        <view class="image-item" wx:for="{{images}}" wx:key="index">
+          <image class="upload-image" src="{{item}}" mode="aspectFill" />
+          <view class="image-delete" catchtap="deleteImage" data-index="{{index}}">×</view>
+        </view>
+        <view class="image-add" bindtap="chooseImage" wx:if="{{images.length < 5}}">
+          <text class="add-icon">+</text>
+          <text class="add-text">添加图片</text>
+        </view>
+      </view>
+      <text class="form-hint">最多可上传5张图片，第一张为封面图</text>
+    </view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="form-section">
+    <view class="section-title">基本信息</view>
+    <view class="form-item">
+      <text class="form-label required">商品名称</text>
+      <input class="form-input" placeholder="请输入商品名称" value="{{name}}" bindinput="onNameInput" maxlength="50" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">商品描述</text>
+      <textarea class="form-textarea" placeholder="请输入商品描述" value="{{desc}}" bindinput="onDescInput" maxlength="200" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">商品分类</text>
+      <view class="category-row">
+        <view class="custom-select flex-1">
+          <view class="select-trigger" bindtap="toggleCategoryDropdown">
+            <text class="select-value {{selectedCategory ? '' : 'placeholder'}}">{{selectedCategory || '请选择分类'}}</text>
+            <text class="select-arrow {{showCategoryDropdown ? 'up' : ''}}">▼</text>
+          </view>
+          <view class="select-dropdown" wx:if="{{showCategoryDropdown}}">
+            <view class="select-option" wx:for="{{categories}}" wx:key="id" bindtap="selectCategory" data-index="{{index}}">
+              <text class="option-name">{{item.name}}</text>
+              <text class="option-check" wx:if="{{selectedCategory === item.name}}">✓</text>
+            </view>
+            <view class="select-option empty" wx:if="{{categories.length === 0}}">
+              <text class="empty-text">暂无分类，请先添加</text>
+            </view>
+          </view>
+        </view>
+        <button class="add-category-btn" bindtap="openAddCategory">+ 新增</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 价格库存 -->
+  <view class="form-section">
+    <view class="section-title">价格库存</view>
+    <view class="form-item">
+      <text class="form-label required">销售价格（元）</text>
+      <input class="form-input" type="digit" placeholder="请输入销售价格" value="{{price}}" bindinput="onPriceInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">原价（元）</text>
+      <input class="form-input" type="digit" placeholder="请输入原价" value="{{originalPrice}}" bindinput="onOriginalPriceInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label required">库存数量</text>
+      <input class="form-input" type="number" placeholder="请输入库存数量" value="{{stock}}" bindinput="onStockInput" />
+    </view>
+  </view>
+
+  <!-- 商品规格 -->
+  <view class="form-section">
+    <view class="section-title">
+      <text>商品规格</text>
+      <text class="section-action" bindtap="addSpecGroup">+ 添加规格</text>
+    </view>
+    <view class="spec-list">
+      <view class="spec-group" wx:for="{{specs}}" wx:key="index">
+        <view class="spec-header">
+          <input class="spec-name-input" placeholder="规格名称（如：口味）" value="{{item.name}}" bindinput="onSpecNameInput" data-index="{{index}}" />
+          <text class="spec-delete" catchtap="deleteSpecGroup" data-index="{{index}}">删除</text>
+        </view>
+        <view class="spec-values">
+          <view class="spec-value-item" wx:for="{{item.options}}" wx:for-item="option" wx:for-index="optionIndex" wx:key="optionIndex">
+            <input class="spec-value-input" placeholder="规格值（如：微辣）" value="{{option.name}}" bindinput="onSpecValueInput" data-index="{{index}}" data-option-index="{{optionIndex}}" />
+            <view class="spec-value-delete" catchtap="deleteSpecValue" data-index="{{index}}" data-option-index="{{optionIndex}}">×</view>
+          </view>
+          <view class="spec-value-add" catchtap="addSpecValue" data-index="{{index}}">+ 添加规格值</view>
+        </view>
+      </view>
+    </view>
+    <text class="form-hint" wx:if="{{specs.length === 0}}">暂无规格，添加规格后可设置不同规格的价格和库存</text>
+  </view>
+
+  <!-- 商品标签 -->
+  <view class="form-section">
+    <view class="section-title">商品标签</view>
+    <view class="tag-list">
+      <view class="tag-item {{item.selected ? 'active' : ''}}" wx:for="{{allTags}}" wx:key="name" bindtap="toggleTag" data-tag="{{item.name}}">
+        {{item.label}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-bar">
+    <button class="submit-btn" bindtap="handleSubmit" loading="{{loading}}">{{productId ? '保存修改' : '发布商品'}}</button>
+  </view>
+
+  <!-- 添加分类弹窗 -->
+  <view class="modal-mask" wx:if="{{showAddCategory}}" catchtouchmove="preventTouchMove" bindtap="closeAddCategory">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-header" catchtap="stopPropagation">
+        <text class="modal-title">添加商品分类</text>
+        <text class="modal-close" catchtap="closeAddCategory">×</text>
+      </view>
+      <view class="modal-body" catchtap="stopPropagation">
+        <view class="form-item" catchtap="stopPropagation">
+          <text class="form-label required" catchtap="stopPropagation">分类名称</text>
+          <input class="form-input" placeholder="请输入分类名称" value="{{newCategoryName}}" bindinput="onNewCategoryNameInput" maxlength="20" catchtap="stopPropagation" bindfocus="onInputFocus" bindblur="onInputBlur" />
+        </view>
+      </view>
+      <view class="modal-footer" catchtap="stopPropagation">
+        <button class="modal-btn cancel" catchtap="closeAddCategory">取消</button>
+        <button class="modal-btn confirm" catchtap="confirmAddCategory">确认添加</button>
+      </view>
+    </view>
+  </view>
+</view>

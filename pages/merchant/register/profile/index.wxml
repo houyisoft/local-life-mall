@@ -1,0 +1,116 @@
+<!--pages/merchant/profile/index.wxml-->
+<view class="merchant-profile-page">
+  <!-- 店铺信息卡片 -->
+  <view class="section-card">
+    <view class="section-title">店铺信息</view>
+
+    <view class="form-item">
+      <text class="form-label">店铺名称</text>
+      <input class="form-input" placeholder="请输入店铺名称" value="{{merchantInfo.name}}" bindinput="onNameInput" maxlength="30" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">店铺类型</text>
+      <view class="custom-select" catchtap="toggleTypeDropdown">
+        <view class="select-trigger">
+          <text class="select-value {{merchantInfo.typeName ? '' : 'placeholder'}}">{{merchantInfo.typeName || '请选择店铺类型'}}</text>
+          <text class="select-arrow {{showTypeDropdown ? 'up' : ''}}">▼</text>
+        </view>
+        <view class="select-dropdown" wx:if="{{showTypeDropdown}}" catchtap="stopPropagation">
+          <view class="select-option" wx:for="{{merchantTypes}}" wx:key="id" bindtap="selectType" data-index="{{index}}">
+            <text class="option-name">{{item.name}}</text>
+            <text class="option-check" wx:if="{{merchantInfo.typeId === item.id}}">✓</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">店铺头像</text>
+      <view class="avatar-upload">
+        <image class="avatar-image" src="{{merchantInfo.logo}}" mode="aspectFill" wx:if="{{merchantInfo.logo}}" />
+        <view class="avatar-btn" bindtap="chooseLogo">更换头像</view>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">店铺简介</text>
+      <textarea class="form-textarea" placeholder="请输入店铺简介" value="{{merchantInfo.description}}" bindinput="onDescInput" maxlength="200" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">店铺地址</text>
+      <input class="form-input" placeholder="请输入店铺地址" value="{{merchantInfo.address}}" bindinput="onAddressInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">联系人</text>
+      <input class="form-input" placeholder="请输入联系人姓名" value="{{merchantInfo.contactName}}" bindinput="onContactNameInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">联系电话</text>
+      <input class="form-input" type="number" placeholder="请输入联系电话" value="{{merchantInfo.contactPhone}}" bindinput="onContactPhoneInput" />
+    </view>
+  </view>
+
+  <!-- 营业时间卡片 -->
+  <view class="section-card">
+    <view class="section-title">营业时间</view>
+
+    <view class="form-item">
+      <view class="time-row">
+        <text class="form-label">营业状态</text>
+        <switch checked="{{businessHours.isOpen}}" bindchange="onOpenChange" color="#FF6B00" />
+      </view>
+      <text class="form-hint">关闭后用户无法下单</text>
+    </view>
+
+    <view class="form-item" wx:if="{{businessHours.isOpen}}">
+      <text class="form-label">开始时间</text>
+      <picker class="form-picker" mode="time" value="{{businessHours.openTime}}" bindchange="onOpenTimeChange">
+        <view class="picker-value">{{businessHours.openTime || '请选择开始时间'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item" wx:if="{{businessHours.isOpen}}">
+      <text class="form-label">结束时间</text>
+      <picker class="form-picker" mode="time" value="{{businessHours.closeTime}}" bindchange="onCloseTimeChange">
+        <view class="picker-value">{{businessHours.closeTime || '请选择结束时间'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item" wx:if="{{businessHours.notice}}">
+      <text class="form-label">营业提示</text>
+      <input class="form-input" value="{{businessHours.notice}}" bindinput="onNoticeInput" />
+    </view>
+  </view>
+
+  <!-- 账户信息卡片 -->
+  <view class="section-card">
+    <view class="section-title">账户信息</view>
+
+    <view class="info-row">
+      <text class="info-label">商家ID</text>
+      <text class="info-value">{{merchantInfo.id}}</text>
+    </view>
+
+    <view class="info-row">
+      <text class="info-label">入驻时间</text>
+      <text class="info-value">{{merchantInfo.createTime}}</text>
+    </view>
+
+    <view class="info-row">
+      <text class="info-label">当前状态</text>
+      <view class="status-badge {{merchantInfo.status === 'active' ? 'active' : ''}}">
+        {{merchantInfo.status === 'active' ? '正常营业' : '已停业'}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section">
+    <button class="action-btn primary" bindtap="handleSave" loading="{{loading}}">保存修改</button>
+    <button class="action-btn logout" bindtap="handleLogout">退出登录</button>
+  </view>
+</view>

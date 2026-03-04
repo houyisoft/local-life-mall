@@ -1,0 +1,91 @@
+<!--pages/user/checkout/index.wxml-->
+<wxs module="priceFilter">
+  // 格式化价格显示（分转元，保留两位小数）
+  var formatPrice = function(price) {
+    if (price == null || price === '') {
+      return '0.00';
+    }
+    return (price / 100).toFixed(2);
+  };
+  module.exports.formatPrice = formatPrice;
+</wxs>
+
+<view class="checkout-page">
+  <!-- 收货地址 -->
+  <view class="address-card" bindtap="selectAddress">
+    <view class="address-icon">📍</view>
+    <view class="address-info" wx:if="{{address}}">
+      <view class="address-user">
+        <text class="user-name">{{address.userName}}</text>
+        <text class="user-phone">{{address.userPhone}}</text>
+      </view>
+      <view class="address-detail">{{address.province}}{{address.city}}{{address.district}}{{address.detail}}</view>
+    </view>
+    <view class="address-info empty" wx:else>
+      <text class="empty-text">请选择收货地址</text>
+    </view>
+    <text class="address-arrow">›</text>
+  </view>
+
+  <!-- 配送时间 -->
+  <view class="delivery-time-card" bindtap="selectDeliveryTime">
+    <view class="card-icon">⏱️</view>
+    <view class="time-info">
+      <view class="time-label">配送时间</view>
+      <view class="time-value">
+        {{deliveryTime.type === 'immediate' ? '尽快送达' : deliveryTime.scheduledTime}}
+      </view>
+    </view>
+    <view class="time-estimate">{{deliveryTime.estimatedTime}}</view>
+    <text class="arrow">›</text>
+  </view>
+
+  <!-- 商品清单 -->
+  <view class="goods-card">
+    <view class="card-title">商品清单</view>
+    <view class="goods-list">
+      <view class="goods-item" wx:for="{{orderItems}}" wx:key="index">
+        <image class="goods-image" src="{{item.productImage}}" mode="aspectFill" />
+        <view class="goods-info">
+          <view class="goods-name">{{item.productName}}</view>
+          <view class="goods-spec">{{item.spec}}</view>
+          <view class="goods-footer">
+            <text class="goods-price">¥{{priceFilter.formatPrice(item.price)}}</text>
+            <text class="goods-quantity">x{{item.quantity}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 备注 -->
+  <view class="remark-card">
+    <view class="remark-title">订单备注</view>
+    <input class="remark-input" placeholder="选填，请输入备注信息" value="{{remark}}" bindinput="onRemarkInput" />
+  </view>
+
+  <!-- 价格明细 -->
+  <view class="price-card">
+    <view class="price-row">
+      <text class="price-label">商品金额</text>
+      <text class="price-value">¥{{priceFilter.formatPrice(totalPrice)}}</text>
+    </view>
+    <view class="price-row">
+      <text class="price-label">配送费</text>
+      <text class="price-value">¥{{priceFilter.formatPrice(deliveryFee)}}</text>
+    </view>
+    <view class="price-row" wx:if="{{discount > 0}}">
+      <text class="price-label">优惠</text>
+      <text class="price-value discount">-¥{{priceFilter.formatPrice(discount)}}</text>
+    </view>
+  </view>
+
+  <!-- 底部提交栏 -->
+  <view class="bottom-bar">
+    <view class="total-section">
+      <text class="total-label">合计：</text>
+      <text class="total-price">¥{{priceFilter.formatPrice(actualPrice)}}</text>
+    </view>
+    <button class="submit-btn" bindtap="handleSubmit" loading="{{loading}}">提交订单</button>
+  </view>
+</view>

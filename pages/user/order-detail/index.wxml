@@ -1,0 +1,203 @@
+<!--pages/user/order-detail/index.wxml-->
+<view class="order-detail-page">
+  <!-- 状态卡片 -->
+  <view class="status-card" wx:if="{{orderDetail}}">
+    <view class="status-icon">
+      <image src="/images/order-status-{{orderDetail.status}}.png" mode="aspectFit"></image>
+    </view>
+    <view class="status-text">{{orderDetail.statusText}}</view>
+    <view class="status-tips" wx:if="{{orderDetail.status === 'paid'}}">商家将尽快为您配送</view>
+    <view class="status-tips" wx:elif="{{orderDetail.status === 'shipped'}}">配送员正在火速配送中</view>
+    <view class="status-tips" wx:elif="{{orderDetail.status === 'completed'}}">感谢您的订购，期待再次光临</view>
+    <view class="status-tips" wx:elif="{{orderDetail.status === 'cancelled'}}">订单已取消</view>
+  </view>
+
+  <!-- 收货地址 -->
+  <view class="section address-section" wx:if="{{orderDetail}}">
+    <view class="section-title">
+      <text class="icon">📍</text>
+      <text>收货地址</text>
+    </view>
+    <view class="address-detail">
+      <view class="address-name-phone">
+        <text class="name">{{orderDetail.receiverName}}</text>
+        <text class="phone">{{orderDetail.receiverPhone}}</text>
+      </view>
+      <view class="address-text">{{orderDetail.receiverAddr}}</view>
+    </view>
+  </view>
+
+  <!-- 商品列表 -->
+  <view class="section products-section" wx:if="{{orderDetail}}">
+    <view class="section-title">
+      <text class="icon">🛒</text>
+      <text>商品信息</text>
+    </view>
+    <view class="product-list">
+      <view class="product-item" wx:for="{{orderDetail.products}}" wx:key="productId">
+        <image class="product-image" src="{{item.productImage}}" mode="aspectFill"></image>
+        <view class="product-info">
+          <view class="product-name">{{item.productName}}</view>
+          <view class="product-spec" wx:if="{{item.spec}}">规格：{{item.spec}}</view>
+          <view class="product-price-qty">
+            <text class="price">¥{{item.priceDisplay}}</text>
+            <text class="qty">x{{item.quantity}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 订单信息 -->
+  <view class="section order-info-section" wx:if="{{orderDetail}}">
+    <view class="section-title">
+      <text class="icon">📋</text>
+      <text>订单信息</text>
+    </view>
+    <view class="info-row">
+      <text class="label">订单编号</text>
+      <view class="value-with-copy">
+        <text class="value">{{orderDetail.orderNo}}</text>
+        <text class="copy-btn" bindtap="copyOrderNo">复制</text>
+      </view>
+    </view>
+    <view class="info-row">
+      <text class="label">下单时间</text>
+      <text class="value">{{orderDetail.createTime}}</text>
+    </view>
+    <view class="info-row" wx:if="{{orderDetail.payTime}}">
+      <text class="label">支付时间</text>
+      <text class="value">{{orderDetail.payTime}}</text>
+    </view>
+    <view class="info-row" wx:if="{{orderDetail.acceptTime}}">
+      <text class="label">接单时间</text>
+      <text class="value">{{orderDetail.acceptTime}}</text>
+    </view>
+    <view class="info-row" wx:if="{{orderDetail.shipTime}}">
+      <text class="label">发货时间</text>
+      <text class="value">{{orderDetail.shipTime}}</text>
+    </view>
+    <view class="info-row" wx:if="{{orderDetail.completeTime}}">
+      <text class="label">完成时间</text>
+      <text class="value">{{orderDetail.completeTime}}</text>
+    </view>
+    <view class="info-row" wx:if="{{orderDetail.remark}}">
+      <text class="label">订单备注</text>
+      <text class="value">{{orderDetail.remark}}</text>
+    </view>
+  </view>
+
+  <!-- 价格明细 -->
+  <view class="section price-section" wx:if="{{orderDetail}}">
+    <view class="section-title">
+      <text class="icon">💰</text>
+      <text>价格明细</text>
+    </view>
+    <view class="price-row">
+      <text class="label">商品总价</text>
+      <text class="value">¥{{orderDetail.totalPriceDisplay}}</text>
+    </view>
+    <view class="price-row">
+      <text class="label">配送费</text>
+      <text class="value">¥{{orderDetail.deliveryFeeDisplay}}</text>
+    </view>
+    <view class="price-row" wx:if="{{orderDetail.discount > 0}}">
+      <text class="label">优惠</text>
+      <text class="value discount">-¥{{orderDetail.discountDisplay}}</text>
+    </view>
+    <view class="price-row total">
+      <text class="label">实付金额</text>
+      <text class="value highlight">¥{{orderDetail.actualPriceDisplay}}</text>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-actions" wx:if="{{orderDetail}}">
+    <view class="action-buttons">
+      <!-- 待接单状态 -->
+      <block wx:if="{{orderDetail.status === 'paid'}}">
+        <button class="btn btn-default" bindtap="backToHome">返回首页</button>
+        <button class="btn btn-default" bindtap="contactMerchant">联系商家</button>
+        <button class="btn btn-default" bindtap="cancelOrder">取消订单</button>
+      </block>
+
+      <!-- 配送中状态 -->
+      <block wx:elif="{{orderDetail.status === 'shipped'}}">
+        <button class="btn btn-default" bindtap="backToHome">返回首页</button>
+        <button class="btn btn-default" bindtap="viewLogistics">查看物流</button>
+        <button class="btn btn-default" bindtap="contactMerchant">联系商家</button>
+        <button class="btn btn-primary" bindtap="confirmReceipt">确认收货</button>
+      </block>
+
+      <!-- 已完成状态 -->
+      <block wx:elif="{{orderDetail.status === 'completed'}}">
+        <button class="btn btn-default" bindtap="backToHome">返回首页</button>
+        <button class="btn btn-default" bindtap="contactMerchant">联系商家</button>
+        <button class="btn btn-primary" bindtap="viewLogistics">查看物流</button>
+      </block>
+
+      <!-- 已取消状态 -->
+      <block wx:elif="{{orderDetail.status === 'cancelled'}}">
+        <button class="btn btn-default" bindtap="backToHome">返回首页</button>
+        <button class="btn btn-default" bindtap="contactMerchant">联系商家</button>
+      </block>
+    </view>
+  </view>
+</view>
+
+<!-- 商家详情弹窗 -->
+<view class="merchant-modal" wx:if="{{showMerchantModal}}">
+  <view class="modal-mask" bindtap="closeMerchantModal"></view>
+  <view class="modal-content">
+    <view class="modal-header">
+      <text class="modal-title">商家详情</text>
+      <text class="modal-close" bindtap="closeMerchantModal">×</text>
+    </view>
+    <view class="modal-body" wx:if="{{merchantDetail}}">
+      <!-- 商家基本信息 -->
+      <view class="merchant-header">
+        <image class="merchant-logo" src="{{merchantDetail.logo}}" mode="aspectFill"></image>
+        <view class="merchant-info">
+          <view class="merchant-name">{{merchantDetail.name}}</view>
+          <view class="merchant-type" wx:if="{{merchantDetail.typeName}}">{{merchantDetail.typeName}}</view>
+        </view>
+      </view>
+
+      <!-- 联系信息 -->
+      <view class="info-section">
+        <view class="section-title">联系信息</view>
+        <view class="info-row" wx:if="{{merchantDetail.contactName}}">
+          <text class="label">联系人：</text>
+          <text class="value">{{merchantDetail.contactName}}</text>
+        </view>
+        <view class="info-row" wx:if="{{merchantDetail.contactPhone}}">
+          <text class="label">联系电话：</text>
+          <text class="value phone">{{merchantDetail.contactPhone}}</text>
+        </view>
+        <view class="info-row" wx:if="{{merchantDetail.address}}">
+          <text class="label">店铺地址：</text>
+          <text class="value">{{merchantDetail.address}}</text>
+        </view>
+      </view>
+
+      <!-- 营业信息 -->
+      <view class="info-section" wx:if="{{merchantDetail.businessHours}}">
+        <view class="section-title">营业时间</view>
+        <view class="info-row">
+          <text class="value">{{merchantDetail.businessHours}}</text>
+        </view>
+      </view>
+
+      <!-- 商家描述 -->
+      <view class="info-section" wx:if="{{merchantDetail.description}}">
+        <view class="section-title">商家简介</view>
+        <view class="description">{{merchantDetail.description}}</view>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <button class="btn-call" bindtap="callMerchant" wx:if="{{merchantDetail && merchantDetail.contactPhone}}">
+        拨打电话
+      </button>
+    </view>
+  </view>
+</view>

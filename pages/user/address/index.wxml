@@ -1,0 +1,67 @@
+<!--pages/user/address/index.wxml-->
+<view class="address-page">
+  <!-- 地址列表 -->
+  <scroll-view class="address-list" scroll-y enable-back-to-top>
+    <view
+      class="address-item"
+      wx:for="{{addresses}}"
+      wx:key="id"
+      bindtap="selectAddress"
+      data-address="{{item}}"
+    >
+      <!-- 默认标签 -->
+      <view class="default-badge" wx:if="{{item.isDefault}}">默认</view>
+
+      <!-- 地址信息 -->
+      <view class="address-content">
+        <view class="address-header">
+          <text class="name">{{item.userName}}</text>
+          <text class="phone">{{item.userPhone}}</text>
+        </view>
+        <view class="address-text">
+          {{item.province}}{{item.city}}{{item.district}}{{item.detail}}
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="address-actions">
+        <button
+          class="action-btn edit-btn"
+          catchtap="editAddress"
+          data-id="{{item.id}}"
+        >
+          编辑
+        </button>
+        <button
+          class="action-btn default-btn"
+          catchtap="setDefault"
+          data-id="{{item.id}}"
+          wx:if="{{!item.isDefault}}"
+        >
+          设为默认
+        </button>
+        <button
+          class="action-btn delete-btn"
+          catchtap="deleteAddress"
+          data-id="{{item.id}}"
+          wx:if="{{!item.isDefault}}"
+        >
+          删除
+        </button>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{addresses.length === 0}}">
+      <text class="empty-icon">📍</text>
+      <text class="empty-text">暂无收货地址</text>
+    </view>
+  </scroll-view>
+
+  <!-- 底部新增按钮 -->
+  <view class="bottom-bar">
+    <button class="add-btn" bindtap="addAddress">
+      + 新增收货地址
+    </button>
+  </view>
+</view>

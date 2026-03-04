@@ -1,0 +1,150 @@
+/* pages/user/address/index.wxss */
+.address-page {
+  min-height: 100vh;
+  background: #F5F5F5;
+  padding-bottom: 120rpx;
+  padding-bottom: calc(120rpx + constant(safe-area-inset-bottom));
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+/* 地址列表 */
+.address-list {
+  height: 100vh;
+  padding: 16rpx 24rpx;
+  box-sizing: border-box;
+}
+
+.address-item {
+  background: white;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 16rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.default-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(135deg, #FF6B00 0%, #FF8C00 100%);
+  color: white;
+  font-size: 20rpx;
+  padding: 8rpx 24rpx;
+  border-radius: 0 16rpx 0 24rpx;
+}
+
+.address-content {
+  margin-bottom: 24rpx;
+}
+
+.address-header {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  margin-bottom: 12rpx;
+}
+
+.name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.phone {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.address-text {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 操作按钮 */
+.address-actions {
+  display: flex;
+  gap: 16rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid #F0F0F0;
+}
+
+.action-btn {
+  flex: 1;
+  height: 64rpx;
+  line-height: 64rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.edit-btn {
+  background: #F5F5F5;
+  color: #333;
+}
+
+.default-btn {
+  background: #FFF5F0;
+  color: #FF6B00;
+}
+
+.delete-btn {
+  background: #FFF0F0;
+  color: #FF4444;
+}
+
+.action-btn::after {
+  border: none;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 200rpx 0;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.3;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #999;
+}
+
+/* 底部操作栏 */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 16rpx 32rpx;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.08);
+  z-index: 100;
+}
+
+.add-btn {
+  width: 100%;
+  height: 88rpx;
+  background: linear-gradient(135deg, #FF6B00 0%, #FF8C00 100%);
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: white;
+  border: none;
+  box-shadow: 0 8rpx 24rpx rgba(255, 107, 0, 0.3);
+}
+
+.add-btn::after {
+  border: none;
+}

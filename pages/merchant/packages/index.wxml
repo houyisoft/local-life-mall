@@ -1,0 +1,63 @@
+<!--pages/merchant/packages/index.wxml-->
+<view class="packages-page">
+  <!-- 顶部操作栏 -->
+  <view class="top-bar">
+    <view class="tabs">
+      <view class="tab-item {{activeTab === 'all' ? 'active' : ''}}" bindtap="switchTab" data-tab="all">
+        全部 ({{stats.total || 0}})
+      </view>
+      <view class="tab-item {{activeTab === 'on_sale' ? 'active' : ''}}" bindtap="switchTab" data-tab="on_sale">
+        已上架 ({{stats.onSale || 0}})
+      </view>
+      <view class="tab-item {{activeTab === 'sold_out' ? 'active' : ''}}" bindtap="switchTab" data-tab="sold_out">
+        已下架 ({{stats.soldOut || 0}})
+      </view>
+    </view>
+    <button class="add-btn" bindtap="addPackage">+ 添加套餐</button>
+  </view>
+
+  <!-- 套餐列表 -->
+  <view class="package-list" wx:if="{{packages.length > 0}}">
+    <view class="package-card" wx:for="{{packages}}" wx:key="id">
+      <image class="package-image" src="{{item.images && item.images.length > 0 ? item.images[0] : ''}}" mode="aspectFill" />
+      <view class="package-content">
+        <view class="package-header">
+          <text class="package-name">{{item.name}}</text>
+          <view class="package-status {{item.status === 'on_sale' ? 'on-sale' : 'sold-out'}}">
+            {{item.status === 'on_sale' ? '已上架' : '已下架'}}
+          </view>
+        </view>
+        <text class="package-desc">{{item.description}}</text>
+        <view class="package-items">
+          <text class="items-label">包含：</text>
+          <text class="items-text">
+            <text wx:for="{{item.items}}" wx:for-item="subItem" wx:for-index="subIndex" wx:key="subIndex">
+              {{subItem.productName}}{{subIndex < item.items.length - 1 ? '、' : ''}}
+            </text>
+          </text>
+        </view>
+        <view class="package-footer">
+          <view class="package-price-box">
+            <text class="package-price">¥{{item.price / 100}}</text>
+            <text class="package-original" wx:if="{{item.originalPrice}}">¥{{item.originalPrice / 100}}</text>
+          </view>
+          <view class="package-sales">已售{{item.sales || 0}}</view>
+        </view>
+        <view class="package-actions">
+          <view class="action-btn edit" catchtap="editPackage" data-id="{{item.id}}">编辑</view>
+          <view class="action-btn {{item.status === 'on_sale' ? 'off' : 'on'}}" catchtap="toggleStatus" data-id="{{item.id}}" data-status="{{item.status}}">
+            {{item.status === 'on_sale' ? '下架' : '上架'}}
+          </view>
+          <view class="action-btn delete" catchtap="deletePackage" data-id="{{item.id}}">删除</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{packages.length === 0 && !loading}}">
+    <text class="empty-icon">🎁</text>
+    <text class="empty-text">暂无套餐</text>
+    <text class="empty-hint">点击上方按钮添加套餐</text>
+  </view>
+</view>

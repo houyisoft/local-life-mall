@@ -1,0 +1,181 @@
+<!--pages/user/merchant-detail/index.wxml-->
+<view class="merchant-detail-page">
+  <!-- 商铺头部信息 -->
+  <view class="merchant-header" wx:if="{{merchant}}">
+    <image class="merchant-logo" src="{{merchant.logo}}" mode="aspectFill"/>
+    <view class="merchant-info">
+      <view class="merchant-top">
+        <text class="merchant-name">{{merchant.name}}</text>
+        <view class="merchant-type">
+          <text class="type-icon">{{merchant.typeIcon}}</text>
+          <text class="type-name">{{merchant.typeName}}</text>
+        </view>
+      </view>
+      <text class="merchant-desc">{{merchant.description}}</text>
+      <view class="merchant-stats">
+        <view class="stat-item">
+          <text class="stat-value">{{merchant.productCount || 0}}</text>
+          <text class="stat-label">商品</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{merchant.sales || 0}}</text>
+          <text class="stat-label">销量</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 联系方式 -->
+  <view class="contact-section" wx:if="{{merchant}}">
+    <view class="contact-item" bindtap="onContactMerchant">
+      <text class="contact-icon">📞</text>
+      <text class="contact-text">{{merchant.phone || '暂无电话'}}</text>
+    </view>
+    <view class="contact-item" bindtap="onViewLocation">
+      <text class="contact-icon">📍</text>
+      <text class="contact-text">{{merchant.address || '暂无地址'}}</text>
+    </view>
+    <view class="contact-item" wx:if="{{merchant.businessHours}}">
+      <text class="contact-icon">🕐</text>
+      <text class="contact-text">{{merchant.businessHours}}</text>
+    </view>
+  </view>
+
+  <!-- 套餐列表标题 -->
+  <view class="products-header" wx:if="{{packages.length > 0}}">
+    <text class="section-title">店铺套餐</text>
+    <text class="product-count">共{{packages.length}}个</text>
+  </view>
+
+  <!-- 套餐列表 -->
+  <view class="products-list" wx:if="{{packages.length > 0}}">
+    <view
+      class="product-item package-item"
+      wx:for="{{packages}}"
+      wx:key="id"
+      bindtap="onTapPackage"
+      data-id="{{item.id}}"
+    >
+      <image class="product-image" src="{{item.images[0]}}" mode="aspectFill"/>
+      <view class="product-info">
+        <view class="product-header">
+          <text class="product-name">{{item.name}}</text>
+          <view class="package-badge">套餐</view>
+        </view>
+        <text class="product-desc">{{item.description}}</text>
+        <view class="product-footer">
+          <view class="price-row">
+            <text class="price-symbol">¥</text>
+            <text class="price-value">{{item.price / 100}}</text>
+            <text class="original-price" wx:if="{{item.originalPrice}}">¥{{item.originalPrice / 100}}</text>
+          </view>
+          <!-- 购物车数量选择器 -->
+          <view class="cart-quantity-wrapper" catchtap="stopPropagation">
+            <!-- 未添加时显示 + 按钮 -->
+            <view wx:if="{{!cartItems['package_' + item.id]}}" class="add-to-cart-btn {{addingCart['package_' + item.id] ? 'adding' : ''}}" catchtap="onAddToCart" data-id="{{item.id}}" data-type="package" data-item="{{item}}">
+              <text class="add-icon">+</text>
+            </view>
+            <!-- 已添加时显示数量选择器 -->
+            <view wx:else class="quantity-control-mini">
+              <view class="qty-btn-minus" catchtap="onDecreaseQuantity" data-id="{{item.id}}" data-type="package">
+                <text>-</text>
+              </view>
+              <view class="qty-value">{{cartItems['package_' + item.id]}}</view>
+              <view class="qty-btn-plus" catchtap="onAddToCart" data-id="{{item.id}}" data-type="package" data-item="{{item}}">
+                <text>+</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 商品列表标题 -->
+  <view class="products-header">
+    <text class="section-title">店铺商品</text>
+    <text class="product-count">共{{products.length}}件</text>
+  </view>
+
+  <!-- 商品列表 -->
+  <view class="products-list" wx:if="{{!detailLoading || products.length > 0}}">
+    <view
+      class="product-item"
+      wx:for="{{products}}"
+      wx:key="id"
+      bindtap="onTapProduct"
+      data-id="{{item.id}}"
+    >
+      <image class="product-image" src="{{item.images[0]}}" mode="aspectFill"/>
+      <view class="product-info">
+        <view class="product-header">
+          <text class="product-name">{{item.name}}</text>
+          <view class="product-status" wx:if="{{item.status === 'sold_out'}}">已售罄</view>
+        </view>
+        <text class="product-desc">{{item.description}}</text>
+        <view class="product-footer">
+          <view class="price-row">
+            <text class="price-symbol">¥</text>
+            <text class="price-value">{{item.price / 100}}</text>
+            <text class="original-price" wx:if="{{item.originalPrice}}">¥{{item.originalPrice / 100}}</text>
+          </view>
+          <!-- 购物车数量选择器 -->
+          <view class="cart-quantity-wrapper" catchtap="stopPropagation">
+            <!-- 未添加时显示 + 按钮 -->
+            <view wx:if="{{!cartItems['product_' + item.id]}}" class="add-to-cart-btn {{addingCart['product_' + item.id] ? 'adding' : ''}}" catchtap="onAddToCart" data-id="{{item.id}}" data-type="product" data-item="{{item}}">
+              <text class="add-icon">+</text>
+            </view>
+            <!-- 已添加时显示数量选择器 -->
+            <view wx:else class="quantity-control-mini">
+              <view class="qty-btn-minus" catchtap="onDecreaseQuantity" data-id="{{item.id}}" data-type="product">
+                <text>-</text>
+              </view>
+              <view class="qty-value">{{cartItems['product_' + item.id]}}</view>
+              <view class="qty-btn-plus" catchtap="onAddToCart" data-id="{{item.id}}" data-type="product" data-item="{{item}}">
+                <text>+</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{detailLoading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-container" wx:if="{{!detailLoading && products.length === 0}}">
+    <text class="empty-icon">📦</text>
+    <text class="empty-text">暂无商品</text>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{!detailLoading && products.length > 0}}">
+    <text wx:if="{{loading}}">加载中...</text>
+    <text wx:elif="{{!hasMore}}">没有更多了</text>
+    <text wx:else>上拉加载更多</text>
+  </view>
+
+  <!-- 底部购物车操作栏 -->
+  <view class="cart-bar" wx:if="{{totalCount > 0}}">
+    <view class="cart-bar-content">
+      <!-- 购物车图标和价格 -->
+      <view class="cart-icon-wrapper" bindtap="onViewCart">
+        <view class="cart-icon-container">
+          <text class="cart-icon">🛒</text>
+          <view class="cart-badge">{{totalCount}}</view>
+        </view>
+        <view class="cart-price">
+          <text class="price-label">合计：</text>
+          <text class="price-symbol">¥</text>
+          <text class="price-value">{{totalAmount / 100}}</text>
+        </view>
+      </view>
+      <!-- 去结算按钮 -->
+      <button class="checkout-btn" bindtap="onCheckout">去结算</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,126 @@
+<!--pages/merchant/register/index.wxml-->
+<view class="merchant-register-page">
+  <view class="header">
+    <text class="title">店铺信息</text>
+    <text class="subtitle">完善店铺基本信息</text>
+  </view>
+
+  <form bindsubmit="handleSubmit">
+    <!-- 店铺类型 -->
+    <view class="form-item">
+      <text class="label required">店铺类型</text>
+      <picker mode="selector" range="{{merchantTypes}}" range-key="name" value="{{typeIndex}}" bindchange="onTypeChange">
+        <view class="picker">
+          <text class="picker-value {{typeIndex === null ? 'placeholder' : ''}}">
+            {{typeIndex !== null ? merchantTypes[typeIndex].name : '请选择店铺类型'}}
+          </text>
+          <text class="picker-icon">›</text>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 店铺名称 -->
+    <view class="form-item">
+      <text class="label required">店铺名称</text>
+      <input
+        class="input"
+        name="name"
+        placeholder="请输入店铺名称"
+        value="{{formData.name}}"
+        bindinput="onNameInput"
+        maxlength="50"
+      />
+    </view>
+
+    <!-- 店铺logo -->
+    <view class="form-item">
+      <text class="label">店铺照片</text>
+      <view class="logo-upload" bindtap="chooseLogo">
+        <image
+          wx:if="{{formData.logo}}"
+          class="logo-preview"
+          src="{{formData.logo}}"
+          mode="aspectFill"
+        />
+        <view wx:else class="logo-placeholder">
+          <text class="upload-icon">+</text>
+          <text class="upload-text">上传Logo</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 店铺描述 -->
+    <view class="form-item">
+      <text class="label">店铺描述</text>
+      <textarea
+        class="textarea"
+        name="description"
+        placeholder="请输入店铺描述"
+        value="{{formData.description}}"
+        bindinput="onDescriptionInput"
+        maxlength="200"
+        show-confirm-bar="{{false}}"
+      />
+    </view>
+
+    <!-- 店铺地址 -->
+    <view class="form-item">
+      <text class="label required">店铺地址</text>
+      <input
+        class="input"
+        name="address"
+        placeholder="请输入店铺地址"
+        value="{{formData.address}}"
+        bindinput="onAddressInput"
+        maxlength="200"
+      />
+    </view>
+
+    <!-- 联系人姓名 -->
+    <view class="form-item">
+      <text class="label required">联系人姓名</text>
+      <input
+        class="input"
+        name="contactName"
+        placeholder="请输入联系人姓名"
+        value="{{formData.contactName}}"
+        bindinput="onContactNameInput"
+        maxlength="20"
+      />
+    </view>
+
+    <!-- 联系人电话 -->
+    <view class="form-item">
+      <text class="label required">联系人电话</text>
+      <input
+        class="input"
+        name="contactPhone"
+        placeholder="请输入联系人电话"
+        value="{{formData.contactPhone}}"
+        bindinput="onContactPhoneInput"
+        type="number"
+        maxlength="11"
+      />
+    </view>
+
+    <!-- 营业时间 -->
+    <view class="form-item">
+      <text class="label">营业时间</text>
+      <input
+        class="input"
+        name="businessHours"
+        placeholder="例如：09:00-22:00"
+        value="{{formData.businessHours}}"
+        bindinput="onBusinessHoursInput"
+        maxlength="50"
+      />
+    </view>
+
+    <!-- 提交按钮 -->
+    <view class="submit-section">
+      <button class="submit-btn" formType="submit" disabled="{{loading}}">
+        {{loading ? '保存中...' : '保存信息'}}
+      </button>
+    </view>
+  </form>
+</view>

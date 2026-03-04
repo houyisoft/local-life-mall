@@ -1,0 +1,71 @@
+<!--pages/merchant/home/index.wxml-->
+<view class="merchant-home-page">
+  <!-- 顶部头部 -->
+  <view class="merchant-header">
+    <view class="header-left">
+      <image class="merchant-logo" src="{{merchantInfo.logo}}" />
+      <view class="merchant-info">
+        <text class="merchant-name">{{merchantInfo.name}}</text>
+        <text class="merchant-type">{{merchantInfo.type}}</text>
+      </view>
+    </view>
+    <view class="header-actions">
+      <text class="action-btn" bindtap="editMerchant">编辑</text>
+      <text class="action-btn logout-btn" bindtap="logout">退出</text>
+    </view>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-value">{{stats.todayOrders}}</text>
+      <text class="stat-label">今日订单</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-value">{{stats.todaySales ? stats.todaySales / 100 : 0}}</text>
+      <text class="stat-label">今日销售额</text>
+    </view>
+    <view class="stat-item">
+      <text class="stat-value">{{stats.pendingOrders}}</text>
+      <text class="stat-label">待处理</text>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="quick-entry">
+    <view class="entry-item" bindtap="goToProducts">
+      <text class="entry-icon">📦</text>
+      <text class="entry-label">商品管理</text>
+    </view>
+    <view class="entry-item" bindtap="goToOrders">
+      <text class="entry-icon">📋</text>
+      <text class="entry-label">订单管理</text>
+      <view class="entry-badge" wx:if="{{stats.pendingOrders > 0}}">{{stats.pendingOrders}}</view>
+    </view>
+    <view class="entry-item" bindtap="goToPackages">
+      <text class="entry-icon">🎁</text>
+      <text class="entry-label">套餐管理</text>
+    </view>
+    <view class="entry-item" bindtap="goToProfile">
+      <text class="entry-icon">⚙️</text>
+      <text class="entry-label">店铺设置</text>
+    </view>
+  </view>
+
+  <!-- 待处理事项 -->
+  <view class="pending-section" wx:if="{{pendingOrders.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">待处理订单</text>
+      <text class="section-more" bindtap="goToOrders">查看全部 ›</text>
+    </view>
+    <view class="pending-list">
+      <view class="pending-item" wx:for="{{pendingOrders}}" wx:key="id" bindtap="handleOrder" data-id="{{item.id}}">
+        <view class="pending-info">
+          <text class="pending-user">{{item.userNickname}}</text>
+          <text class="pending-time">{{item.createTime}}</text>
+        </view>
+        <text class="pending-amount">¥{{item.actualPrice / 100}}</text>
+      </view>
+    </view>
+  </view>
+</view>

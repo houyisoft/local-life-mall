@@ -204,26 +204,26 @@ App({
       console.log('[扫码进入] scene:', options.scene)
 
       try {
-        // 解析 scene 参数，格式：merchant_id:123
+        // 解析 scene 参数，格式：merchantId:123
         const scene = decodeURIComponent(options.scene)
         console.log('[扫码进入] 解码后 scene:', scene)
 
         const params = this.parseScene(scene)
         console.log('[扫码进入] 解析后 params:', params)
 
-        if (params.merchant_id) {
+        if (params.merchantId) {
           // 跳转到商铺详情页
-          console.log('[扫码进入] 跳转到商铺详情, merchantId:', params.merchant_id)
+          console.log('[扫码进入] 跳转到商铺详情, merchantId:', params.merchantId)
 
           // 延迟跳转，确保小程序已完全启动
           setTimeout(() => {
             wx.navigateTo({
-              url: `/pages/user/merchant-detail/index?id=${params.merchant_id}`,
+              url: `/pages/user/merchant-detail/index?id=${params.merchantId}`,
               fail: (err) => {
                 console.error('[扫码进入] 跳转失败:', err)
                 // 如果 navigateTo 失败，尝试使用 redirectTo
                 wx.redirectTo({
-                  url: `/pages/user/merchant-detail/index?id=${params.merchant_id}`
+                  url: `/pages/user/merchant-detail/index?id=${params.merchantId}`
                 })
               }
             })

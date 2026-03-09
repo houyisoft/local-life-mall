@@ -22,12 +22,36 @@ Page({
     totalCount: 0,
     addingCart: {}
   },
-
+  getValueFromString(str, targetKey) {
+    if (!str || typeof str !== 'string') return null;
+    
+    // 按 '&' 分割成多个键值对
+    const pairs = str.split('&');
+    
+    for (const pair of pairs) {
+        // 按 ':' 分割键和值，最多分割一次
+        const [key, value] = pair.split(':');
+        // 去除可能的空格（如果字符串中有空格如 "merchant_id: 4"）
+        if (key.trim() === targetKey) {
+            // 如果值存在，去除空格后返回；否则返回空字符串
+            return value ? value.trim() : '';
+        }
+    }
+    return null; // 未找到键
+},
   onLoad(options) {
-    const { id } = options
-    console.log('[商铺详情] 接收到的参数 options:', options)
-    console.log('[商铺详情] 商铺ID:', id)
-    const merchantId = parseInt(id)
+    const { id,scene } = options
+    var merchantId=''
+    if(scene){
+        var newscene = decodeURIComponent(options.scene);
+        console.log(newscene)
+        merchantId = parseInt(this.getValueFromString(newscene, "merchantId"))
+    }else{
+        console.log('[商铺详情] 接收到的参数 options:', options)
+        console.log('[商铺详情] 商铺ID:', id)
+        merchantId = parseInt(id)
+    }
+ 
     console.log('[商铺详情] 解析后的 merchantId:', merchantId)
     this.setData({
       merchantId
@@ -38,7 +62,9 @@ Page({
       this.loadProducts(() => {
         this.loadPackages(() => {
           // 商品和套餐都加载完成后再加载购物车
+          if(!scene){
           this.loadCartState()
+          }
         })
       })
     })

@@ -112,14 +112,29 @@ const request = (options) => {
             console.log('[request] 解析成功，返回数据:', result)
             resolve(result)
           } else {
-            // 业务错误
-            console.error('[request] 业务错误:', {
-              url: options.url,
-              code: responseData.code,
-              msg: responseData.msg
-            })
-            handleError(responseData)
-            reject(responseData)
+              if(responseData.code === 401){
+                // 未授权，清除token并跳转登录
+                    clearToken()
+                    wx.showToast({
+                    title: '请先登录',
+                    icon: 'none'
+                    })
+                    // 可以在这里跳转到登录页
+                    wx.reLaunch({
+                        url: '/pages/auth/login/index'
+                    })
+                    reject({ code: 401, msg: '请登录授权' })
+              }else{
+                    // 业务错误
+                    console.error('[request] 业务错误:', {
+                        url: options.url,
+                        code: responseData.code,
+                        msg: responseData.msg
+                    })
+                    handleError(responseData)
+                    reject(responseData)
+              }
+           
           }
         } else if (statusCode === 401) {
           // 未授权，清除token并跳转登录
